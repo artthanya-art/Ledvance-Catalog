@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LEDVANCE Thailand — แคตตาล็อกสินค้า 2026/2027</title>
+<title>OSRAM Thailand — แคตตาล็อกสินค้า 2026/2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -230,13 +230,13 @@
       <circle cx="17" cy="17" r="5.5" fill="#ff7a3d"/>
     </svg>
     <div class="brand-text">
-      <h1>LEDVANCE Thailand</h1>
+      <h1>OSRAM Thailand</h1>
       <p>แคตตาล็อกสินค้าไฟส่องสว่าง 2026/2027</p>
     </div>
   </div>
   <div class="top-meta">
     <div><b>337</b> รายการสินค้า &middot; <b>23</b> หมวดหมู่</div>
-    <div>ข้อมูลอ้างอิงจาก LEDVANCE Thailand Catalogue 2026/2027</div>
+    <div>ข้อมูลอ้างอิงจาก OSRAM Thailand Catalogue 2026/2027</div>
   </div>
 </header>
 
@@ -312,8 +312,8 @@
 </div>
 
 <footer>
-  <div>LEDVANCE THAILAND &middot; 200 Jasmine International Tower, 23rd Floor (Room 2304A), Moo 4, Chaeng Watthana Road, Pak Kret, Nonthaburi 11120 &middot; โทร. +66 2 100 3012</div>
-  <div>ภาพสินค้าเป็นภาพตัวอย่างจากแคตตาล็อก LEDVANCE Thailand 2026/2027 (ต่อ 1 รูปต่อหมวดหมู่) รุ่นย่อยแต่ละสีไฟ/ขนาดอาจมีรูปลักษณ์ต่างกันเล็กน้อย</div>
+  <div>OSRAM THAILAND &middot; 200 Jasmine International Tower, 23rd Floor (Room 2304A), Moo 4, Chaeng Watthana Road, Pak Kret, Nonthaburi 11120 &middot; โทร. +66 2 100 3012</div>
+  <div>ภาพสินค้าเป็นภาพตัวอย่างจากแคตตาล็อก OSRAM Thailand 2026/2027 (ต่อ 1 รูปต่อหมวดหมู่) รุ่นย่อยแต่ละสีไฟ/ขนาดอาจมีรูปลักษณ์ต่างกันเล็กน้อย</div>
 </footer>
 
 <script>
@@ -374,7 +374,7 @@ function heroMedia(catKey){
   return iconSvg(ICONS[catKey] || "bulb");
 }
 
-let currentCat = CAT_ORDER[0];
+let currentCat = "__ALL__";
 let viewMode = "grid";
 let searchTerm = "";
 let cctTerm = "";
@@ -501,7 +501,7 @@ function render(){
 
   let list = [];
   if(currentCat === "__ALL__"){
-    catHeader.innerHTML = `<h2>สินค้าทั้งหมด</h2><p class="tagline">เรียกดูสินค้าทุกหมวดหมู่จากแคตตาล็อก LEDVANCE Thailand 2026/2027</p>`;
+    catHeader.innerHTML = `<h2>สินค้าทั้งหมด</h2><p class="tagline">เรียกดูสินค้าทุกหมวดหมู่จากแคตตาล็อก OSRAM Thailand 2026/2027</p>`;
     CAT_ORDER.forEach(key=>{
       DATA[key].products.forEach(p => list.push({...p, __cat:key}));
     });
