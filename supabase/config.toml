@@ -1,0 +1,5 @@
+# Supabase CLI config for this project.
+# project_id is only required for local `supabase link` / `supabase db push`
+# workflows — the GitHub integration itself does not need this file to be
+# filled in, but the CLI expects the file to exist.
+project_id = "your-project-ref-here"
