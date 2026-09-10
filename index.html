@@ -263,7 +263,7 @@
     <div><b>337</b> รายการสินค้า &middot; <b>23</b> หมวดหมู่</div>
     <div>ข้อมูลอ้างอิงจาก OSRAM Thailand Catalogue 2026/2027</div>
   </div>
-  <button class="cat-toggle" id="importBtn" title="นำเข้าข้อมูลสินค้าจากไฟล์ Excel" style="align-self:center;">
+  <button class="cat-toggle" id="importBtn" title="นำเข้าข้อมูลสินค้าจากไฟล์ Excel" style="align-self:center; display:none;">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2 v8 M5 7 l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5 v1 a1 1 0 0 0 1 1 h8 a1 1 0 0 0 1-1 v-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
     <span>นำเข้า Excel</span>
   </button>
@@ -328,6 +328,11 @@
     </select>
     <select id="warrantyFilter">
       <option value="">การรับประกันทั้งหมด</option>
+    </select>
+    <select id="stockFilter">
+      <option value="">สถานะสต็อกทั้งหมด</option>
+      <option value="yes">มีในสต็อก (S)</option>
+      <option value="no">ยังไม่มีในสต็อก</option>
     </select>
     <button class="reset-btn" id="resetBtn">ล้างตัวกรอง</button>
   </div>
@@ -482,6 +487,7 @@ let wattTerm = "";
 let lmTerm = "";
 let baseTerm = "";
 let warrantyTerm = "";
+let stockTerm = "";
 
 function populateBaseFilter(){
   const sel = document.getElementById("baseFilter");
@@ -532,7 +538,7 @@ document.getElementById("viewGridBtn").addEventListener("click", ()=> setViewMod
 document.getElementById("viewListBtn").addEventListener("click", ()=> setViewMode("list"));
 
 function updateFilterBadge(){
-  const count = [cctTerm, wattTerm, lmTerm, baseTerm, warrantyTerm].filter(v=>v!=="").length;
+  const count = [cctTerm, wattTerm, lmTerm, baseTerm, warrantyTerm, stockTerm].filter(v=>v!=="").length;
   const badge = document.getElementById("filterBadge");
   if(count > 0){
     badge.style.display = "inline-block";
@@ -765,6 +771,11 @@ function matchesFilters(p){
   if(warrantyTerm){
     if(WARRANTY_MAP[p.__cat] !== warrantyTerm) return false;
   }
+  if(stockTerm){
+    const hasStock = !!p.order_code;
+    if(stockTerm === "yes" && !hasStock) return false;
+    if(stockTerm === "no" && hasStock) return false;
+  }
   if(searchTerm){
     const t = searchTerm.toLowerCase();
     if(!(p.model.toLowerCase().includes(t) || p.code.toLowerCase().includes(t))) return false;
@@ -916,14 +927,20 @@ document.getElementById("warrantyFilter").addEventListener("change", (e)=>{
   updateFilterBadge();
   render();
 });
+document.getElementById("stockFilter").addEventListener("change", (e)=>{
+  stockTerm = e.target.value;
+  updateFilterBadge();
+  render();
+});
 document.getElementById("resetBtn").addEventListener("click", ()=>{
-  searchTerm = ""; cctTerm = ""; wattTerm = ""; lmTerm = ""; baseTerm = ""; warrantyTerm = "";
+  searchTerm = ""; cctTerm = ""; wattTerm = ""; lmTerm = ""; baseTerm = ""; warrantyTerm = ""; stockTerm = "";
   document.getElementById("searchInput").value = "";
   document.getElementById("cctFilter").value = "";
   document.getElementById("wattFilter").value = "";
   document.getElementById("lmFilter").value = "";
   document.getElementById("baseFilter").value = "";
   document.getElementById("warrantyFilter").value = "";
+  document.getElementById("stockFilter").value = "";
   updateFilterBadge();
   render();
 });
