@@ -83,6 +83,12 @@
     border:1.5px solid var(--steel-deep); border-radius:4px; font-size:13px; font-weight:600; cursor:pointer;
   }
   .btn-secondary:active{transform:scale(0.98);}
+  body.notes-hidden .note{display:none;}
+  .notes-toggle-btn{
+    margin:0 auto 18px; padding:6px 14px; background:#fff; color:var(--steel-deep);
+    border:1.5px solid var(--steel-deep); border-radius:20px; font-size:12px; font-weight:600; cursor:pointer;
+  }
+  .notes-toggle-btn:active{transform:scale(0.96);}
   .error{color:var(--rust); font-size:12.5px; margin-top:5px; display:none;}
   .results{display:none;}
   .panel{
@@ -378,6 +384,7 @@
 <button class="calc-main" onclick="calculate()">▶ คำนวณและแนะนำระบบ</button>
 
 <div class="results-divider"><span>ผลลัพธ์การคำนวณ</span></div>
+<div style="text-align:center;"><button id="notesToggle" class="notes-toggle-btn" onclick="toggleNotes()">ซ่อนหมายเหตุ</button></div>
 
 <div class="results" id="results">
 
@@ -670,6 +677,13 @@ function fmt(n, d=1){
 
 function fmtTHB(n){
   return '฿' + Math.round(n).toLocaleString('en-US');
+}
+
+function toggleNotes(){
+  document.body.classList.toggle('notes-hidden');
+  const hidden = document.body.classList.contains('notes-hidden');
+  const btn = document.getElementById('notesToggle');
+  if(btn) btn.textContent = hidden ? 'แสดงหมายเหตุ' : 'ซ่อนหมายเหตุ';
 }
 
 function escapeXml(s){
