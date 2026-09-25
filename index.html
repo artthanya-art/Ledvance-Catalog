@@ -61,6 +61,23 @@
     font-size:15px; font-weight:600; cursor:pointer; margin-top:6px;
   }
   button.calc:active{transform:scale(0.99);}
+  button.calc-main{
+    width:100%; padding:19px; background:var(--steel-deep); color:#fff; border:none; border-radius:6px;
+    font-size:17px; font-weight:700; cursor:pointer; margin-top:14px;
+    box-shadow:0 5px 16px rgba(29,62,79,0.4);
+    letter-spacing:0.01em;
+    display:flex; align-items:center; justify-content:center; gap:9px;
+  }
+  button.calc-main:active{transform:scale(0.98); box-shadow:0 2px 8px rgba(29,62,79,0.3);}
+  .results-divider{
+    display:flex; align-items:center; gap:12px; margin:28px 0 20px;
+  }
+  .results-divider::before, .results-divider::after{
+    content:''; flex:1; height:2px; background:var(--line-strong);
+  }
+  .results-divider span{
+    font-size:11.5px; font-weight:700; color:var(--ink-soft); letter-spacing:0.05em; white-space:nowrap;
+  }
   .btn-secondary{
     display:block; margin:10px auto 0; padding:9px 16px; background:#fff; color:var(--steel-deep);
     border:1.5px solid var(--steel-deep); border-radius:4px; font-size:13px; font-weight:600; cursor:pointer;
@@ -358,7 +375,9 @@
   </div>
 </section>
 
-<button class="calc" onclick="calculate()">คำนวณและแนะนำระบบ</button>
+<button class="calc-main" onclick="calculate()">▶ คำนวณและแนะนำระบบ</button>
+
+<div class="results-divider"><span>ผลลัพธ์การคำนวณ</span></div>
 
 <div class="results" id="results">
 
@@ -509,13 +528,11 @@
         <span class="lbl" style="font-size:13px; color:var(--ink-soft);">ค่าบำรุงรักษาโดยประมาณต่อปี</span>
         <span class="val mono" id="totalMaint" style="font-size:16px; color:var(--steel-deep);">฿0/ปี</span>
       </div>
-      <button class="btn-secondary" onclick="exportBOQCSV()">ดาวน์โหลดตาราง BOQ ทั้งโปรเจค (CSV/Excel)</button>
       <div class="note" style="margin-top:10px; background:var(--sage-bg); border-left-color:var(--sage);"><strong>แก้ไขราคาได้:</strong> คลิกที่ตัวเลขราคาในตารางงานโยธาหรือรายการอุปกรณ์ด้านบนเพื่อแก้ไขเป็นราคาจริงที่คุณมี (เช่น ใบเสนอราคาจากซัพพลายเออร์) ระบบจะคำนวณค่าบำรุงรักษา, OPEX และยอดรวมทั้งหมดใหม่ให้ทันที — กด "คำนวณ" ใหม่อีกครั้งเพื่อรีเซ็ตกลับเป็นค่าประมาณการเริ่มต้น</div>
       <div class="note" style="margin-top:10px;">ราคาก่อสร้าง/อุปกรณ์เป็นประมาณการอย่างหยาบจากค่าเฉลี่ยตลาดทั่วไป <strong>ราคาอุปกรณ์ถือว่ารวมค่าขนส่งมาถึงในประเทศแล้ว</strong> (เพราะเป็นราคาตลาดที่ซื้อขายจริงในไทย ไม่ใช่ราคาหน้าโรงงานต่างประเทศ) จึงไม่มีการบวกค่าขนส่งซ้ำอีกชั้น<br><br><strong>ค่าท่อ+วาล์ว</strong> คำนวณแบบละเอียดจากขนาดท่อจริง (สูตรความต่อเนื่อง D=√(4Q/πv)) + ความยาวประมาณจากผังไซต์ + จำนวนวาล์วต่อจุดต่อ (ดูรายละเอียดในตาราง Piping BOQ พร้อมหมายเหตุสูตรด้านล่างของตารางนั้น) ไม่ใช่ % คงที่แบบเดิมอีกต่อไป<br><br><strong>ค่าไฟฟ้า/ควบคุม</strong> คำนวณจากภาระไฟฟ้ารวมที่ติดตั้งจริง + จำนวนเครื่องมือวัดตามระดับการควบคุมที่เลือก (พื้นฐาน/PLC พื้นฐาน/SCADA เต็มรูปแบบ) ไม่ใช่ % คงที่เช่นกัน (ดูรายละเอียดในตาราง Electrical BOQ ด้านล่าง)<br><br>ต้นทุนระดับโปรเจค (ออกแบบ/ใบอนุญาต/VAT/Contingency) คำนวณต่อเนื่องกันตามลำดับ: (งานโยธา+อุปกรณ์+ท่อ+ไฟฟ้า/ควบคุม) → บวกออกแบบ+ใบอนุญาต → บวก VAT → บวก Contingency เป็นขั้นสุดท้าย รายละเอียดสูตรอยู่ในเอกสารอ้างอิงสูตร<br><br>ค่าบำรุงรักษา/ปี คิดเป็น % ของราคาแต่ละรายการ (งานโยธา ~1.5%/ปี, เครื่องจักรทั่วไป ~5-6%/ปี, เมมเบรน MBR ~12%/ปี, เครื่องรีดตะกอน ~7%/ปี, ท่อ+วาล์ว ~2%/ปี, ไฟฟ้า/ควบคุม ~4%/ปี) ครอบคลุมเฉพาะอะไหล่/ซ่อมบำรุงเครื่องจักรเท่านั้น — ค่าไฟ/สารเคมี/แรงงาน ดูเพิ่มเติมด้านล่าง</div>
 
       <div class="panel-title" style="margin-top:16px;">แผนภาพกระบวนการ (Process Flow Diagram)</div>
       <div id="flowDiagram" style="text-align:center;"></div>
-      <button class="btn-secondary" onclick="downloadSVGAsPNG('flowDiagram','treatment-flow-diagram.png')">ดาวน์โหลดแผนภาพกระบวนการเป็นรูปภาพ (PNG)</button>
       <div class="note" style="margin-top:10px;">แผนภาพนี้สร้างจาก<strong>รายการเครื่องจักร/อุปกรณ์ที่ติ๊กเลือกอยู่จริงด้านบน</strong> (ไม่ใช่แค่ขั้นตอนกระบวนการกว้างๆ ในข้อ 05) — ถ้ายกเลิกอุปกรณ์ optional รายการไหน แผนภาพจะอัปเดตตัดออกให้อัตโนมัติ</div>
     </div>
   </section>
@@ -580,6 +597,8 @@
     <div class="step-label"><span class="num">13</span><h2>ส่งออกรายงาน</h2></div>
     <div class="panel">
       <button class="calc" onclick="printReport()">พิมพ์รายงานเป็น PDF</button>
+      <button class="btn-secondary" onclick="downloadSVGAsPNG('flowDiagram','treatment-flow-diagram.png')">ดาวน์โหลดแผนภาพกระบวนการเป็นรูปภาพ (PNG)</button>
+      <button class="btn-secondary" onclick="exportBOQCSV()">ดาวน์โหลดตาราง BOQ ทั้งโปรเจค (CSV/Excel)</button>
     </div>
   </section>
 
